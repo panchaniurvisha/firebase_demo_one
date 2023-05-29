@@ -112,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: ElevatedButton.styleFrom(
                           fixedSize: const Size(120, 60),
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15)),
+                              borderRadius: BorderRadius.circular(20)),
                         ),
                         child: const Text(
                           "Submit",

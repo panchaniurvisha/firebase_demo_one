@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_demo_one/utils/routes_name.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +14,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   TextEditingController passwordController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   bool value = false;
@@ -29,7 +31,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Sign_up_page"),
+        title: Text("Sign_up_page\n"
+            "Firebase_Auth_Demo"),
       ),
       body: ListView(
         children: [
