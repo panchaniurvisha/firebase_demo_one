@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_demo_one/utils/routes_name.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +14,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  User? user;
   TextEditingController passwordController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   bool value = false;
@@ -22,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Login_page"),
+        title: const Text("Login_page"),
       ),
       body: ListView(
         children: [
@@ -34,9 +37,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     const EdgeInsets.symmetric(vertical: 50, horizontal: 10),
                 child: Column(
                   children: [
-                    Align(
+                    const Align(
                       alignment: Alignment.topLeft,
-                      child: const Text("Your email",
+                      child: Text("Your email",
                           style: TextStyle(
                             height: 3,
                             color: Color(0xff000000),
@@ -59,9 +62,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         }
                       },
                     ),
-                    Align(
+                    const Align(
                       alignment: Alignment.topLeft,
-                      child: const Text("Your password",
+                      child: Text("Your password",
                           style: TextStyle(
                             height: 3,
                             color: Color(0xff000000),
@@ -97,32 +100,72 @@ class _LoginScreenState extends State<LoginScreen> {
                         return null;
                       },
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 50,
                     ),
                     ElevatedButton(
                         onPressed: () {
+                          signUser();
+                          debugPrint("User!!!!!!!!!!>$user");
                           if (formKey.currentState!.validate()) {
                             formKey.currentState!.validate();
-                            debugPrint("Second Screen====>");
+
+                            debugPrint("Second Screen!!!!!!!!!!!---->");
                             Navigator.pushNamedAndRemoveUntil(context,
                                 RoutesName.secondScreen, (route) => false);
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          fixedSize: const Size(120, 60),
+                          fixedSize: const Size(300, 60),
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
+                              borderRadius: BorderRadius.circular(5)),
                         ),
                         child: const Text(
-                          "Submit",
+                          "Login",
                           style: TextStyle(fontSize: 18),
                         )),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text('Do not have an Account?'),
+                        TextButton(
+                          child: const Text(
+                            'Signup',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          onPressed: () {
+                            Navigator.popAndPushNamed(
+                              context,
+                              RoutesName.firstScreen,
+                            );
+                            //signup screen
+                          },
+                        )
+                      ],
+                    ),
                   ],
                 ),
               )),
         ],
       ),
     );
+  }
+
+  signUser() async {
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: emailController.text, password: passwordController.text)
+          .then((value) {
+        debugPrint("Value==>${value.user}");
+        user = value.user;
+      });
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        debugPrint('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        debugPrint('Wrong password provided for that user.');
+      }
+    }
   }
 }

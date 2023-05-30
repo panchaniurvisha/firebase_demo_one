@@ -14,7 +14,8 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  User? user;
   TextEditingController passwordController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   bool value = false;
@@ -22,8 +23,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final formKey = GlobalKey<FormState>();
 
   List<String> data = [
-    "Sign in",
-    "Hey there! Sign up with your email to continue.",
+    "Sign up",
+    "Hey there! create your profile to start your journey",
     "Your email"
   ];
 
@@ -31,7 +32,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Sign_up_page\n"
+        title: const Text("Sign_up_page\n"
             "Firebase_Auth_Demo"),
       ),
       body: ListView(
@@ -109,17 +110,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         return null;
                       },
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Center(
                       child: TextButton(
-                          onPressed: () {}, child: Text("Forgot Password")),
+                          onPressed: () {},
+                          child: const Text("Forgot Password")),
                     ),
                     ElevatedButton(
                         onPressed: () {
+                          createUser();
+                          debugPrint("user===>>>$user");
                           if (formKey.currentState!.validate()) {
                             formKey.currentState!.validate();
+
                             debugPrint("Second Screen====>");
                             Navigator.pushNamedAndRemoveUntil(context,
                                 RoutesName.secondScreen, (route) => false);
@@ -128,26 +133,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         style: ElevatedButton.styleFrom(
                           fixedSize: const Size(400, 60),
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15)),
+                              borderRadius: BorderRadius.circular(5)),
                         ),
                         child: const Text(
-                          "Login",
+                          "Sign up",
                           style: TextStyle(fontSize: 18),
                         )),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text('Does not have account?'),
+                        const Text('Already have an Account?'),
                         TextButton(
                           child: const Text(
-                            'Sign in',
+                            'Login',
                             style: TextStyle(fontSize: 20),
                           ),
                           onPressed: () {
+                            Navigator.pushNamedAndRemoveUntil(context,
+                                RoutesName.secondScreen, (route) => false);
                             //signup screen
                           },
                         )
                       ],
-                      mainAxisAlignment: MainAxisAlignment.center,
                     ),
                   ],
                 ),
@@ -155,5 +162,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ],
       ),
     );
+  }
+
+  createUser() async {
+    try {
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      )
+          .then((value) {
+        debugPrint("Value==>${value.user}");
+        user = value.user;
+      });
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        debugPrint('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        debugPrint('The account already exists for that email.');
+      }
+    } catch (e) {
+      debugPrint("Error===>$e");
+    }
   }
 }
