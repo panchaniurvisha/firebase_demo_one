@@ -121,10 +121,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ElevatedButton(
                         onPressed: () {
                           createUser();
-                          debugPrint("user===>>>$user");
                           if (formKey.currentState!.validate()) {
                             formKey.currentState!.validate();
-
                             debugPrint("Second Screen====>");
                             Navigator.pushNamedAndRemoveUntil(context,
                                 RoutesName.secondScreen, (route) => false);
@@ -174,6 +172,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
           .then((value) {
         debugPrint("Value==>${value.user}");
         user = value.user;
+        user!.sendEmailVerification();
+        Navigator.pop(context);
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {

@@ -105,14 +105,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     ElevatedButton(
                         onPressed: () {
-                          signUser();
-                          debugPrint("User!!!!!!!!!!>$user");
+                          loginUser();
                           if (formKey.currentState!.validate()) {
                             formKey.currentState!.validate();
 
                             debugPrint("Second Screen!!!!!!!!!!!---->");
                             Navigator.pushNamedAndRemoveUntil(context,
-                                RoutesName.secondScreen, (route) => false);
+                                RoutesName.homeScreen, (route) => false);
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -151,14 +150,19 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  signUser() async {
+  loginUser() async {
     try {
-      await FirebaseAuth.instance
+      await firebaseAuth
           .signInWithEmailAndPassword(
               email: emailController.text, password: passwordController.text)
           .then((value) {
         debugPrint("Value==>${value.user}");
         user = value.user;
+        if (user!.emailVerified) {
+          debugPrint("User is Login....");
+        } else {
+          debugPrint("Please verify the email");
+        }
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
