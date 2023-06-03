@@ -1,5 +1,5 @@
 class RoutesName {
   static String firstScreen = "{/}";
-  static String secondScreen = "{loginScreen}";
+  static String secondScreen = "{SignUpScreen}";
   static String homeScreen = "{HomeScreen}";
 }

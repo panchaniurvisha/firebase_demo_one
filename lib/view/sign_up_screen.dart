@@ -66,8 +66,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       controller: emailController,
                       validator: (value) {
                         if (value!.isEmpty ||
-                            /* !RegExp(r'^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$')
-                                .hasMatch(value)) {*/
                             !RegExp(r'\S+@\S+\.+.[com]').hasMatch(value)) {
                           return "Enter Correct Email Address";
                         } else {
@@ -98,12 +96,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         },
                       ),
                       labelText: "password",
-                      maxLength: 8,
                       controller: passwordController,
                       obscureText: isSecurePassword,
                       validator: (value) {
                         if (value!.isEmpty ||
-                            !RegExp(r"(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)")
+                            !RegExp(r"(?=.\d)(?=.[a-z])(?=.[A-Z])(?=.\W)")
                                 .hasMatch(value)) {
                           return "please  valid password";
                         }
@@ -120,12 +117,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     ElevatedButton(
                         onPressed: () {
-                          createUser();
                           if (formKey.currentState!.validate()) {
-                            formKey.currentState!.validate();
-                            debugPrint("Second Screen====>");
-                            Navigator.pushNamedAndRemoveUntil(context,
-                                RoutesName.secondScreen, (route) => false);
+                            createUser();
+                            debugPrint("First Screen====>");
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -148,7 +142,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           onPressed: () {
                             Navigator.pushNamedAndRemoveUntil(context,
-                                RoutesName.secondScreen, (route) => false);
+                                RoutesName.firstScreen, (route) => false);
                             //signup screen
                           },
                         )

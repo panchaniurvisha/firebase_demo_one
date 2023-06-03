@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class AppTextFormField extends StatelessWidget {
-  final int? maxLength;
   final bool? obscureText;
   final Widget? suffixIcon;
   final String? labelText;
@@ -9,7 +8,6 @@ class AppTextFormField extends StatelessWidget {
   final TextEditingController? controller;
   const AppTextFormField(
       {Key? key,
-      this.maxLength,
       this.controller,
       this.labelText,
       this.validator,
@@ -21,7 +19,6 @@ class AppTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       obscureText: obscureText ?? false,
-      maxLength: maxLength ?? 30,
       controller: controller,
       autofocus: true,
       textInputAction: TextInputAction.done,

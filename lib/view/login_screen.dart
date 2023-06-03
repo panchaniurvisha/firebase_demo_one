@@ -88,12 +88,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                       ),
                       labelText: "password",
-                      maxLength: 8,
                       controller: passwordController,
                       obscureText: isSecurePassword,
                       validator: (value) {
                         if (value!.isEmpty ||
-                            !RegExp(r"(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)")
+                            !RegExp(r"(?=.\d)(?=.[a-z])(?=.[A-Z])(?=.\W)")
                                 .hasMatch(value)) {
                           return "please  valid password";
                         }
@@ -105,13 +104,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     ElevatedButton(
                         onPressed: () {
-                          loginUser();
                           if (formKey.currentState!.validate()) {
-                            formKey.currentState!.validate();
-
+                            loginUser();
                             debugPrint("Second Screen!!!!!!!!!!!---->");
-                            Navigator.pushNamedAndRemoveUntil(context,
-                                RoutesName.homeScreen, (route) => false);
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -133,9 +128,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: TextStyle(fontSize: 20),
                           ),
                           onPressed: () {
-                            Navigator.popAndPushNamed(
+                            Navigator.pushNamed(
                               context,
-                              RoutesName.firstScreen,
+                              RoutesName.secondScreen,
                             );
                             //signup screen
                           },
@@ -160,6 +155,8 @@ class _LoginScreenState extends State<LoginScreen> {
         user = value.user;
         if (user!.emailVerified) {
           debugPrint("User is Login....");
+          Navigator.pushNamedAndRemoveUntil(
+              context, RoutesName.homeScreen, (route) => false);
         } else {
           debugPrint("Please verify the email");
         }
