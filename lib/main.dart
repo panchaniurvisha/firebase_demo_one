@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_demo_one/utils/routes.dart';
-import 'package:firebase_demo_one/utils/routes_name.dart';
+import 'package:firebase_demo_one/view/home/login_screen_one.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
@@ -21,9 +20,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      //home: const MyHomePage(title: 'Flutter Demo one Home Page'),
-      routes: appRoutes,
-      initialRoute: RoutesName.firstScreen,
+      home: LoginScreenOne(),
+      // routes: appRoutes,
+      // initialRoute: RoutesName.firstScreen,
     );
   }
 }

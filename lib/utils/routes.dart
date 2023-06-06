@@ -7,5 +7,5 @@ import 'package:flutter/cupertino.dart';
 Map<String, WidgetBuilder> appRoutes = {
   RoutesName.firstScreen: (context) => const LoginScreen(),
   RoutesName.secondScreen: (context) => const SignUpScreen(),
-  RoutesName.homeScreen: (context) => const HomeScreen(),
+  RoutesName.homeScreen: (context) => const LoginScreenOne(),
 };
