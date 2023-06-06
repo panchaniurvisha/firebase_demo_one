@@ -66,7 +66,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       controller: emailController,
                       validator: (value) {
                         if (value!.isEmpty ||
-                            !RegExp(r'\S+@\S+\.+.[com]').hasMatch(value)) {
+                            !RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
                           return "Enter Correct Email Address";
                         } else {
                           return null;
@@ -158,7 +158,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   createUser() async {
     try {
-      await FirebaseAuth.instance
+      await firebaseAuth
           .createUserWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
