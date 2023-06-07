@@ -79,6 +79,9 @@ class _OtpPageState extends State<OtpPage> {
               Pinput(
                 length: 6,
                 showCursor: true,
+                defaultPinTheme: defaultPinTheme,
+                focusedPinTheme: focusedPinTheme,
+                submittedPinTheme: submittedPinTheme,
                 onChanged: (value) {
                   code = value;
                 },
