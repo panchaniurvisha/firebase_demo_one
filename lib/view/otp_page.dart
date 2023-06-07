@@ -109,11 +109,11 @@ class _OtpPageState extends State<OtpPage> {
                       debugPrint("Wrong Otp");
                     }
                   },
-                  child: const Text("Verify phone number"),
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                   ),
+                  child: const Text("Verify phone number"),
                 ),
               ),
               Row(
