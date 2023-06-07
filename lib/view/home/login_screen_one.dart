@@ -1,11 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_demo_one/utils/routes_name.dart';
 import 'package:firebase_demo_one/view/otp_page.dart';
 import 'package:flutter/material.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 
 class LoginScreenOne extends StatefulWidget {
-  const LoginScreenOne({Key? key}) : super(key: key);
+  const LoginScreenOne({
+    Key? key,
+  }) : super(key: key);
+  static String verify = "";
 
   @override
   State<LoginScreenOne> createState() => _LoginScreenOneState();
@@ -13,54 +14,122 @@ class LoginScreenOne extends StatefulWidget {
 
 class _LoginScreenOneState extends State<LoginScreenOne> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  String? verificationCode = "";
+  var phone = "";
   User? user;
-  final formKey = GlobalKey<FormState>();
-  TextEditingController phoneController = TextEditingController();
+  TextEditingController countryCode = TextEditingController();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    countryCode.text = "+91";
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Login Screen",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            )),
-      ),
-      body: Form(
-        key: formKey,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            children: [
-              const Text("Your Mobile Number",
+        appBar: AppBar(
+          title: const Text("Login Screen",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              )),
+        ),
+        body: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 25),
+          alignment: Alignment.center,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Phone Verification",
                   style: TextStyle(
-                    height: 3,
-                    color: Color(0xff000000),
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14,
-                    fontFamily: "Circular Std",
-                    fontStyle: FontStyle.normal,
-                  )),
-              IntlPhoneField(
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5),
-                    borderSide: BorderSide(color: Colors.black26, width: 2),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5),
-                    borderSide: const BorderSide(),
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                initialCountryCode: 'IN',
-                onChanged: (phone) {
-                  debugPrint(phone.completeNumber);
-                },
-              ),
-              /*AppTextFormField(
+                const SizedBox(
+                  height: 10,
+                ),
+                const Text(
+                  "We need to register your phone before getting started !",
+                  style: TextStyle(fontSize: 16),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Container(
+                  height: 55,
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 1, color: Colors.grey),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                          width: 30,
+                          child: TextField(
+                            controller: countryCode,
+                            decoration:
+                                const InputDecoration(border: InputBorder.none),
+                          )),
+                      const Text(
+                        "|",
+                        style: TextStyle(fontSize: 33, color: Colors.grey),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: TextField(
+                          keyboardType: TextInputType.phone,
+                          onChanged: (value) {
+                            phone = value;
+                          },
+                          decoration: const InputDecoration(
+                              border: InputBorder.none, hintText: "Phone"),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  height: 45,
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      await firebaseAuth.verifyPhoneNumber(
+                        phoneNumber: "${countryCode.text + phone}",
+                        verificationCompleted:
+                            (PhoneAuthCredential credential) {},
+                        verificationFailed: (FirebaseAuthException e) {
+                          debugPrint("${e.message}");
+                        },
+                        codeSent: (String verificationId, int? resendToken) {
+                          MyPhone.verify = verificationId;
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const OtpPage(),
+                            ),
+                          );
+                        },
+                        codeAutoRetrievalTimeout: (String verificationId) {},
+                      );
+                    },
+                    child: const Text("Send the code"),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        )
+        /*AppTextFormField(
                 controller: phoneController,,
                 labelText: "Mobile Number",
                 validator: (value) {
@@ -73,67 +142,10 @@ class _LoginScreenOneState extends State<LoginScreenOne> {
                   }
                 },
               ),*/
-              ElevatedButton(
-                  onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      registerUser();
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => OtpPage(),
-                          ),
-                          (route) => false);
-                      debugPrint("Home Screen====>");
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(400, 60),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5)),
-                  ),
-                  child: const Text(
-                    "Register",
-                    style: TextStyle(fontSize: 18),
-                  )),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('Do not have an Account?'),
-                  TextButton(
-                    child: const Text(
-                      'Signup',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    onPressed: () {
-                      Navigator.pushNamed(
-                        context,
-                        RoutesName.secondScreen,
-                      );
-                      //signup screen
-                    },
-                  )
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+        );
   }
+}
 
-  registerUser() async {
-    await firebaseAuth.verifyPhoneNumber(
-      phoneNumber: '+44 7123 123 456',
-      verificationCompleted: (PhoneAuthCredential credential) {
-        firebaseAuth.signInWithCredential(credential);
-      },
-      verificationFailed: (FirebaseAuthException e) {},
-      codeSent: (String verificationId, int? resendToken) {
-        setState(() {
-          verificationCode = verificationId;
-        });
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {},
-    );
-  }
+class MyPhone {
+  static String verify = "";
 }

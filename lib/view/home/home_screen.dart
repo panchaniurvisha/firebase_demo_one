@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Home"),
+          title: const Text("Home"),
           actions: [
             IconButton(
                 onPressed: () async {
@@ -35,15 +35,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => LoginScreen(),
+                        builder: (context) => const LoginScreen(),
                       ),
                       (route) => false);
                 },
-                icon: Icon(Icons.logout))
+                icon: const Icon(Icons.logout))
           ],
         ),
-        body: Center(
-          child: Text("uid"),
+        body: const Center(
+          child: Text("uid", style: TextStyle(fontSize: 30)),
         ));
   }
 }
