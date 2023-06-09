@@ -1,11 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:github_sign_in_plus/github_sign_in_plus.dart';
+import 'package:github_sign_in/github_sign_in.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class MyFireBaseApp extends StatefulWidget {
-  const MyFireBaseApp({Key? key}) : super(key: key);
-
+  const MyFireBaseApp({
+    Key? key,
+  }) : super(key: key);
   @override
   State<MyFireBaseApp> createState() => _MyFireBaseAppState();
 }
@@ -14,12 +15,11 @@ class _MyFireBaseAppState extends State<MyFireBaseApp> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   UserCredential? userCredential;
   User? userData;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("My Firebase App", style: TextStyle(fontSize: 25)),
-      ),
+      appBar: AppBar(title: const Text("Flutter Social Authentication")),
       body: Center(
           child: Padding(
         padding: const EdgeInsets.only(top: 20),
@@ -46,9 +46,7 @@ class _MyFireBaseAppState extends State<MyFireBaseApp> {
             ),
             ElevatedButton.icon(
               onPressed: () async {
-                userCredential = await signInWithGitHub();
-                userData = userCredential!.user;
-                debugPrint("userdata =$userData");
+                signInWithGitHub();
               },
               icon: Image.asset("assets/images/github_logo.png", height: 20),
               label: const Text("Sign in with github",
@@ -95,18 +93,19 @@ class _MyFireBaseAppState extends State<MyFireBaseApp> {
   Future<UserCredential> signInWithGitHub() async {
     // Create a GitHubSignIn instance
     final GitHubSignIn gitHubSignIn = GitHubSignIn(
-        clientId: clientId,
-        clientSecret: clientSecret,
-        redirectUrl: 'https://my-project.firebaseapp.com/__/auth/handler');
+      clientId: 'c9f2890ed2deb37c7a78',
+      clientSecret: '1c716ac8795a1aa4812b930d3b2eb6737f29f928',
+      redirectUrl: 'https://fir-demo-app-8423e.firebaseapp.com/__/auth/handler',
+    );
+    debugPrint("githubSign----->$gitHubSignIn");
 
     // Trigger the sign-in flow
     final result = await gitHubSignIn.signIn(context);
-
+    debugPrint("result----->$result");
     // Create a credential from the access token
-    final githubAuthCredential = GithubAuthProvider.credential(result.token);
+    final githubAuthCredential = GithubAuthProvider.credential(result.token!);
 
     // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance
-        .signInWithCredential(githubAuthCredential);
+    return await firebaseAuth.signInWithCredential(githubAuthCredential);
   }
 }

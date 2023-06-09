@@ -1,5 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_demo_one/view/home/login_screen_one.dart';
+import 'package:firebase_demo_one/my_firebase_app.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: const LoginScreenOne(),
+      home: const MyFireBaseApp(),
       // routes: appRoutes,
       // initialRoute: RoutesName.firstScreen,
     );
