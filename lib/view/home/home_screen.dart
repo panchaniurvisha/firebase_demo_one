@@ -30,8 +30,8 @@ class _HomeScreenState extends State<HomeScreen> {
           title: const Text("Home"),
           actions: [
             IconButton(
-                onPressed: () async {
-                  await firebaseAuth.signOut();
+                onPressed: () {
+                  firebaseAuth.signOut();
                   Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(

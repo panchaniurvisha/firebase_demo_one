@@ -25,6 +25,7 @@ class _LoginScreenOneState extends State<LoginScreenOne> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -98,54 +99,40 @@ class _LoginScreenOneState extends State<LoginScreenOne> {
                   height: 45,
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () async {
-                      await firebaseAuth.verifyPhoneNumber(
-                        phoneNumber: "${countryCode.text + phone}",
-                        verificationCompleted:
-                            (PhoneAuthCredential credential) {},
-                        verificationFailed: (FirebaseAuthException e) {
-                          debugPrint("${e.message}");
-                        },
-                        codeSent: (String verificationId, int? resendToken) {
-                          MyPhone.verify = verificationId;
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const OtpPage(),
-                            ),
-                          );
-                        },
-                        codeAutoRetrievalTimeout: (String verificationId) {},
-                      );
+                    onPressed: () {
+                      verifyPhoneNumber();
+                      debugPrint("Otp Screen!!!!!!!!!!!---->");
                     },
-                    child: const Text("Send the code"),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
                     ),
+                    child: const Text("Send the code"),
                   ),
                 )
               ],
             ),
           ),
-        )
-        /*AppTextFormField(
-                controller: phoneController,,
-                labelText: "Mobile Number",
-                validator: (value) {
-                  if (value!.isEmpty ||
-                      !RegExp(r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*$')
-                          .hasMatch(value)) {
-                    return "Enter Valid Phone Number";
-                  } else {
-                    return null;
-                  }
-                },
-              ),*/
-        );
+        ));
   }
-}
 
-class MyPhone {
-  static String verify = "";
+  verifyPhoneNumber() async {
+    await firebaseAuth.verifyPhoneNumber(
+      phoneNumber: countryCode.text + phone,
+      verificationCompleted: (PhoneAuthCredential credential) {},
+      verificationFailed: (FirebaseAuthException e) {
+        debugPrint("${e.message}");
+      },
+      codeSent: (String verificationId, int? resendToken) {
+        LoginScreenOne.verify = verificationId;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const OtpPage(),
+          ),
+        );
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {},
+    );
+  }
 }

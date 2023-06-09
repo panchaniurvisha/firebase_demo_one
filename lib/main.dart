@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_demo_one/view/home/login_screen_one.dart';
 import 'package:flutter/material.dart';
-
-import 'my_firebase_app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +20,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: MyFireBaseApp(),
+      home: const LoginScreenOne(),
       // routes: appRoutes,
       // initialRoute: RoutesName.firstScreen,
     );

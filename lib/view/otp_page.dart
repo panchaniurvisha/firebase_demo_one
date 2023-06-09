@@ -93,21 +93,9 @@ class _OtpPageState extends State<OtpPage> {
                 height: 45,
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () async {
-                    try {
-                      PhoneAuthCredential credential =
-                          PhoneAuthProvider.credential(
-                              verificationId: MyPhone.verify, smsCode: code);
-                      await firebaseAuth.signInWithCredential(credential);
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const HomeScreen(),
-                          ),
-                          (route) => false);
-                    } catch (e) {
-                      debugPrint("Wrong Otp");
-                    }
+                  onPressed: () {
+                    verifyOtp();
+                    debugPrint("Home Screen-------->");
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
@@ -138,5 +126,21 @@ class _OtpPageState extends State<OtpPage> {
         ),
       ),
     );
+  }
+
+  verifyOtp() {
+    try {
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(
+          verificationId: LoginScreenOne.verify, smsCode: code);
+      firebaseAuth.signInWithCredential(credential);
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const HomeScreen(),
+          ),
+          (route) => false);
+    } catch (e) {
+      debugPrint("Wrong Otp");
+    }
   }
 }

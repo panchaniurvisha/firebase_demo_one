@@ -38,10 +38,10 @@ class _MyFireBaseAppState extends State<MyFireBaseApp> {
               label: const Text("Sign in with Google",
                   style: TextStyle(color: Colors.black)),
               style: ButtonStyle(
-                  minimumSize: MaterialStateProperty.all(Size(350, 50)),
+                  minimumSize: MaterialStateProperty.all(const Size(350, 50)),
                   backgroundColor: MaterialStateProperty.all(Colors.white)),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             ElevatedButton.icon(
@@ -57,9 +57,9 @@ class _MyFireBaseAppState extends State<MyFireBaseApp> {
                   minimumSize: MaterialStateProperty.all(const Size(350, 50)),
                   backgroundColor: MaterialStateProperty.all(Colors.white)),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.symmetric(vertical: 20),
-              child: const Text(
+              child: Text(
                 "OR",
                 style: TextStyle(
                     color: Colors.black,
