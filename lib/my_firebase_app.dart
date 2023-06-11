@@ -46,7 +46,9 @@ class _MyFireBaseAppState extends State<MyFireBaseApp> {
             ),
             ElevatedButton.icon(
               onPressed: () async {
-                signInWithGitHub();
+                userCredential = await signInWithGitHub();
+                userData = userCredential!.user;
+                debugPrint("userdata =$userData");
               },
               icon: Image.asset("assets/images/github_logo.png", height: 20),
               label: const Text("Sign in with github",
@@ -87,7 +89,7 @@ class _MyFireBaseAppState extends State<MyFireBaseApp> {
     );
 
     // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    return await firebaseAuth.signInWithCredential(credential);
   }
 
   Future<UserCredential> signInWithGitHub() async {
@@ -97,13 +99,13 @@ class _MyFireBaseAppState extends State<MyFireBaseApp> {
       clientSecret: '1c716ac8795a1aa4812b930d3b2eb6737f29f928',
       redirectUrl: 'https://fir-demo-app-8423e.firebaseapp.com/__/auth/handler',
     );
-    debugPrint("githubSign----->$gitHubSignIn");
 
     // Trigger the sign-in flow
     final result = await gitHubSignIn.signIn(context);
-    debugPrint("result----->$result");
+
     // Create a credential from the access token
-    final githubAuthCredential = GithubAuthProvider.credential(result.token!);
+    final githubAuthCredential =
+        GithubAuthProvider.credential("${result.token}");
 
     // Once signed in, return the UserCredential
     return await firebaseAuth.signInWithCredential(githubAuthCredential);
