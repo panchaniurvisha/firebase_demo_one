@@ -4,6 +4,7 @@ class AppTextFormField extends StatelessWidget {
   final bool? obscureText;
   final Widget? suffixIcon;
   final String? labelText;
+  final String? hintText;
   final String? Function(String?)? validator;
   final TextEditingController? controller;
   const AppTextFormField(
@@ -12,7 +13,8 @@ class AppTextFormField extends StatelessWidget {
       this.labelText,
       this.validator,
       this.obscureText,
-      this.suffixIcon})
+      this.suffixIcon,
+      this.hintText})
       : super(key: key);
 
   @override
@@ -24,6 +26,7 @@ class AppTextFormField extends StatelessWidget {
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(
         suffixIcon: suffixIcon ?? const SizedBox(),
+        hintText: hintText!,
         filled: true,
         fillColor: const Color(0xffFFFFFF),
         labelText: labelText ?? "Email",
