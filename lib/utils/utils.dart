@@ -3,7 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class Utils {
   bool isValidName(String name) {
-    RegExp regExp = RegExp(r"^\s*([A-Za-z]{+,}(|[-']| ))+\.?\s*$");
+    RegExp regExp = RegExp(r"^[a-zA-Z]{3,}");
     return regExp.hasMatch(name);
   }
 

@@ -4,9 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_demo_one/res/commen/app_text.dart';
 import 'package:firebase_demo_one/res/constant/app_string.dart';
-import 'package:firebase_demo_one/utils/routes_name.dart';
 import 'package:firebase_demo_one/utils/utils.dart';
 import 'package:firebase_demo_one/view/home/home_screen.dart';
+import 'package:firebase_demo_one/view/sign_up_page/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:github_sign_in/github_sign_in.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -171,10 +171,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: TextStyle(fontSize: 20),
                           ),
                           onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              RoutesName.secondScreen,
-                            );
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SignUpScreen(),
+                                ));
                             //signup screen
                           },
                         )
@@ -188,7 +189,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  ///---------------->>>
+  ///-------CHECK EMAIL IN FIREBASEAUTH--------->>>
   loginUser() async {
     try {
       await firebaseAuth
@@ -219,7 +220,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  ///------Get Data FireBaseFireStore--------->>>
+  ///------DATA STORE IN MODEL FROM  FIRESTORE DATABASE--------->>>
   getUser() {
     CollectionReference users = firebaseFireStore.collection('user');
     users.doc(userData!.uid).get().then((value) {
@@ -235,7 +236,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  ///------SignInWithGoogle--------->>>
+  ///------SignInWithGoogle And Show Authentication--------->>>
   Future<void> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -258,7 +259,7 @@ class _LoginScreenState extends State<LoginScreen> {
     utils.showToastMessage(message: "Login is Successfully");
   }
 
-  ///------SignInWithGithub--------->>>
+  ///------SignInWithGithub And Show Authentication--------->>>
   Future<UserCredential> signInWithGitHub() async {
     // Create a GitHubSignIn instance
     final GitHubSignIn gitHubSignIn = GitHubSignIn(

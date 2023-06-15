@@ -22,8 +22,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   FirebaseFirestore firebaseFireStore = FirebaseFirestore.instance;
 
   User? user;
-  TextEditingController passwordController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
@@ -169,6 +169,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
+  ///----EMAIL SHOW IN AUTH
   createUser() async {
     try {
       await firebaseAuth
@@ -197,6 +198,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
+  ///------DATA SHOW IN  FIRESTORE DATABASE
   createUserData() {
     CollectionReference users = firebaseFireStore.collection('user');
     users.doc(user!.uid).set({
