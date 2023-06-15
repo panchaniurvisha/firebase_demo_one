@@ -26,24 +26,22 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Home"),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  firebaseAuth.signOut();
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const LoginScreen(),
-                      ),
-                      (route) => false);
-                },
-                icon: const Icon(Icons.logout))
-          ],
-        ),
-        body: const Center(
-          child: Text("uid", style: TextStyle(fontSize: 30)),
-        ));
+      appBar: AppBar(
+        title: const Text("Home"),
+        actions: [
+          IconButton(
+              onPressed: () {
+                firebaseAuth.signOut();
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginScreen(),
+                    ),
+                    (route) => false);
+              },
+              icon: const Icon(Icons.logout))
+        ],
+      ),
+    );
   }
 }

@@ -29,4 +29,22 @@ class AppString {
   static const signWithGoogle = "Sign in with Google";
   static const loginWithMobile = "Login with Mobile";
   static const loginWithSocialMedia = "Or Login With Social Media Account";
+
+  ///Otp Page
+  static const otpTitle = "otp verification";
+  static const phoneVerification = "Phone Verification";
+  static const name = "We need to register your phone before getting started !";
+  static const verify = "Verify phone number";
+  static const editPhoneNumber = "Edit Phone number ?";
+
+  ///Login with phone number
+  static const titleOfLogin = "Login Screen";
+  static const hintTextOfPhone = "Phone";
+  static const slash = "|";
+  static const buttonText = "Send the code";
+
+  ///Forgot password Screen
+  static const forgotPasswordTitle = "Reset Password";
+  static const text = "Receive an email to\nreset your password";
+  static const resetPassword = "reset Password";
 }

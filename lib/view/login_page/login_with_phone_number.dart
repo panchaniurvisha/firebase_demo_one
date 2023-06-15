@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_demo_one/res/constant/app_string.dart';
 import 'package:firebase_demo_one/view/otp_page.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +30,7 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Login Screen",
+          title: const Text(AppString.titleOfLogin,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
               )),
@@ -42,7 +43,7 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  "Phone Verification",
+                  AppString.phoneVerification,
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -52,7 +53,7 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
                   height: 10,
                 ),
                 const Text(
-                  "We need to register your phone before getting started !",
+                  AppString.name,
                   style: TextStyle(fontSize: 16),
                 ),
                 const SizedBox(
@@ -60,20 +61,17 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
                 ),
                 Container(
                   height: 55,
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: Colors.grey),
-                      borderRadius: BorderRadius.circular(10)),
+                  decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.grey), borderRadius: BorderRadius.circular(10)),
                   child: Row(
                     children: [
                       SizedBox(
                           width: 30,
                           child: TextField(
                             controller: countryCode,
-                            decoration:
-                                const InputDecoration(border: InputBorder.none),
+                            decoration: const InputDecoration(border: InputBorder.none),
                           )),
                       const Text(
-                        "|",
+                        AppString.slash,
                         style: TextStyle(fontSize: 33, color: Colors.grey),
                       ),
                       const SizedBox(
@@ -85,8 +83,7 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
                           onChanged: (value) {
                             phone = value;
                           },
-                          decoration: const InputDecoration(
-                              border: InputBorder.none, hintText: "Phone"),
+                          decoration: const InputDecoration(border: InputBorder.none, hintText: AppString.hintTextOfPhone),
                         ),
                       )
                     ],
@@ -104,10 +101,9 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
                       debugPrint("Otp Screen!!!!!!!!!!!---->");
                     },
                     style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                     ),
-                    child: const Text("Send the code"),
+                    child: const Text(AppString.buttonText),
                   ),
                 )
               ],

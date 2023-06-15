@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_demo_one/res/constant/app_string.dart';
 import 'package:firebase_demo_one/view/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
@@ -35,17 +36,14 @@ class _OtpPageState extends State<OtpPage> {
             ),
             borderRadius: BorderRadius.circular(20)));
 
-    final focusedPinTheme = defaultPinTheme.copyDecorationWith(
-        border: Border.all(color: const Color.fromRGBO(114, 178, 238, 1)),
-        borderRadius: BorderRadius.circular(8));
+    final focusedPinTheme = defaultPinTheme.copyDecorationWith(border: Border.all(color: const Color.fromRGBO(114, 178, 238, 1)), borderRadius: BorderRadius.circular(8));
     final submittedPinTheme = defaultPinTheme.copyWith(
-      decoration: defaultPinTheme.decoration
-          ?.copyWith(color: const Color.fromRGBO(234, 239, 243, 1)),
+      decoration: defaultPinTheme.decoration?.copyWith(color: const Color.fromRGBO(234, 239, 243, 1)),
     );
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("otp verification"),
+        title: const Text(AppString.otpTitle),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -64,16 +62,13 @@ class _OtpPageState extends State<OtpPage> {
                 height: 25,
               ),
               const Text(
-                "Phone Verification",
+                AppString.phoneVerification,
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
               const SizedBox(
                 height: 10,
               ),
-              const Text(
-                  "We need to register your phone before getting started !",
-                  style: TextStyle(fontSize: 16),
-                  textAlign: TextAlign.center),
+              const Text(AppString.name, style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
               const SizedBox(
                 height: 30,
               ),
@@ -99,10 +94,9 @@ class _OtpPageState extends State<OtpPage> {
                     debugPrint("Home Screen-------->");
                   },
                   style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   ),
-                  child: const Text("Verify phone number"),
+                  child: const Text(AppString.verify),
                 ),
               ),
               Row(
@@ -112,13 +106,12 @@ class _OtpPageState extends State<OtpPage> {
                         Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  const LoginWithPhoneNumber(),
+                              builder: (context) => const LoginWithPhoneNumber(),
                             ),
                             (route) => false);
                       },
                       child: const Text(
-                        "Edit Phone number ?",
+                        AppString.editPhoneNumber,
                         style: TextStyle(color: Colors.black),
                       ))
                 ],
@@ -132,8 +125,7 @@ class _OtpPageState extends State<OtpPage> {
 
   verifyOtp() {
     try {
-      PhoneAuthCredential credential = PhoneAuthProvider.credential(
-          verificationId: LoginWithPhoneNumber.verify, smsCode: code);
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: LoginWithPhoneNumber.verify, smsCode: code);
       firebaseAuth.signInWithCredential(credential);
       Navigator.pushAndRemoveUntil(
           context,

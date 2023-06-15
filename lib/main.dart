@@ -1,5 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_demo_one/view/sign_up_page/sign_up_screen.dart';
+import 'package:firebase_demo_one/view/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: const SignUpScreen(),
+      home: const SplashScreen(),
       // routes: appRoutes,
       // initialRoute: RoutesName.firstScreen,
     );
