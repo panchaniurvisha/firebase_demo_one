@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_demo_one/res/commen/app_text.dart';
+import 'package:firebase_demo_one/res/constant/app_string.dart';
 import 'package:firebase_demo_one/utils/utils.dart';
 import 'package:firebase_demo_one/view/login_screen.dart';
 import 'package:flutter/material.dart';
@@ -36,8 +37,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Sign_up_page\n"
-            "Firebase_Auth_Demo"),
+        title: const Text(AppString.signupTitle),
       ),
       body: ListView(
         children: [
@@ -49,100 +49,74 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const AppText(text: "First Name"),
+                    const AppText(text: AppString.firstName),
                     AppTextFormField(
                       controller: firstNameController,
-                      validator: (value) =>
-                          utils.isValidName(firstNameController.text)
-                              ? null
-                              : "Please Enter Correct Name,",
-                      labelText: "First Name",
-                      hintText: "Enter First name",
+                      validator: (value) => utils.isValidName(firstNameController.text) ? null : AppString.errorTitle,
+                      labelText: AppString.firstName,
+                      hintText: AppString.hintTextName,
                     ),
-                    const AppText(text: "Last Name"),
+                    const AppText(text: AppString.lastname),
                     AppTextFormField(
                       controller: lastNameController,
-                      validator: (value) =>
-                          utils.isValidName(lastNameController.text)
-                              ? null
-                              : "Please Enter Correct Name,",
-                      labelText: "Last Name",
-                      hintText: "Enter Last name",
+                      validator: (value) => utils.isValidName(lastNameController.text) ? null : AppString.errorTitle,
+                      labelText: AppString.lastname,
+                      hintText: AppString.hintTextLastName,
                     ),
-                    const AppText(text: "Email"),
+                    const AppText(text: AppString.email),
                     AppTextFormField(
-                      labelText: "Email",
-                      hintText: "Enter Email",
+                      labelText: AppString.email,
+                      hintText: AppString.hintEmailName,
                       controller: emailController,
-                      validator: (value) =>
-                          utils.isValidEmail(emailController.text)
-                              ? null
-                              : "Please Enter Correct Email,",
+                      validator: (value) => utils.isValidEmail(emailController.text) ? null : AppString.errorEmailTitle,
                     ),
-                    const AppText(text: "Password"),
+                    const AppText(text: AppString.password),
                     AppTextFormField(
-                      suffixIcon: IconButton(
-                        icon: Icon(isSecurePassword
-                            ? Icons.visibility_off
-                            : Icons.visibility),
-                        iconSize: 20,
-                        color: const Color(0xff200E32),
-                        onPressed: () {
-                          setState(() {
-                            isSecurePassword = !isSecurePassword;
-                          });
-                        },
-                      ),
-                      labelText: "password",
-                      hintText: "Enter Password",
-                      controller: passwordController,
-                      obscureText: isSecurePassword,
-                      validator: (value) =>
-                          utils.isValidPassword(passwordController.text)
-                              ? null
-                              : "Please valid Password ,",
-                    ),
-                    const AppText(text: "Phone no"),
-                    AppTextFormField(
-                      controller: numberController,
-                      labelText: "Number",
-                      hintText: "Enter Number",
-                      validator: (value) =>
-                          utils.isValidMobile(numberController.text)
-                              ? null
-                              : "Please Enter Correct Number,",
-                    ),
+                        suffixIcon: IconButton(
+                          icon: Icon(isSecurePassword ? Icons.visibility_off : Icons.visibility),
+                          iconSize: 20,
+                          color: const Color(0xff200E32),
+                          onPressed: () {
+                            setState(() {
+                              isSecurePassword = !isSecurePassword;
+                            });
+                          },
+                        ),
+                        labelText: AppString.password,
+                        hintText: AppString.hintTextPassword,
+                        controller: passwordController,
+                        obscureText: isSecurePassword,
+                        validator: (value) => utils.isValidPassword(passwordController.text) ? null : AppString.errorPasswordTitle),
+                    const AppText(text: AppString.mobileNo),
+                    AppTextFormField(controller: numberController, labelText: AppString.number, hintText: AppString.hintTextNumber, validator: (value) => utils.isValidMobile(numberController.text) ? null : AppString.errorNumberTitle),
                     const SizedBox(
                       height: 20,
                     ),
                     Center(
-                      child: TextButton(
-                          onPressed: () {},
-                          child: const Text("Forgot Password")),
+                      child: TextButton(onPressed: () {}, child: const Text(AppString.forgetPassword)),
                     ),
                     ElevatedButton(
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
                             createUser();
-                            debugPrint("First Screen====>");
+                            debugPrint("Next Login Screen====>");
                           }
                         },
                         style: ElevatedButton.styleFrom(
                           fixedSize: const Size(400, 60),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5)),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                         ),
                         child: const Text(
-                          "Sign up",
+                          AppString.signup,
                           style: TextStyle(fontSize: 18),
                         )),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text('Already have an Account?'),
+                        const Text(AppString.createAccount),
                         TextButton(
                           child: const Text(
-                            'Login',
+                            AppString.login,
                             style: TextStyle(fontSize: 20),
                           ),
                           onPressed: () {
@@ -181,12 +155,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         debugPrint('The password provided is too weak.---->');
-        utils.showSnackBar(context,
-            message: "The password provided is too weak.");
+        utils.showSnackBar(context, message: "The password provided is too weak.");
       } else if (e.code == 'email-already-in-use') {
         debugPrint('The account already exists for that email.');
-        utils.showSnackBar(context,
-            message: "The account already exists for that email.");
+        utils.showSnackBar(context, message: "The account already exists for that email.");
       }
     } catch (e) {
       debugPrint("Error===>$e");
@@ -202,8 +174,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       "number": numberController.text,
       "email ": user!.email, // 42
     }).then((value) {
-      utils.showToastMessage(
-          message: " SignUp is complete,Please verify your email");
+      utils.showToastMessage(message: " SignUp is complete,Please verify your email");
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(

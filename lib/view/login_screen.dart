@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_demo_one/res/commen/app_text.dart';
+import 'package:firebase_demo_one/res/constant/app_string.dart';
 import 'package:firebase_demo_one/utils/routes_name.dart';
 import 'package:firebase_demo_one/utils/utils.dart';
 import 'package:firebase_demo_one/view/home/home_screen.dart';
@@ -48,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Login_page"),
+        title: const Text(AppString.loginTitle),
       ),
       body: ListView(
         children: [
@@ -56,47 +57,28 @@ class _LoginScreenState extends State<LoginScreen> {
               key: formKey,
               autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 50, horizontal: 10),
+                padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 10),
                 child: Column(
                   children: [
-                    const Align(
-                        alignment: Alignment.topLeft,
-                        child: AppText(text: "Email")),
+                    const Align(alignment: Alignment.topLeft, child: AppText(text: AppString.email)),
+                    AppTextFormField(labelText: AppString.email, hintText: AppString.hintEmailName, controller: emailController, validator: (value) => utils.isValidEmail(emailController.text) ? null : AppString.errorEmailTitle),
+                    const Align(alignment: Alignment.topLeft, child: AppText(text: AppString.password)),
                     AppTextFormField(
-                      labelText: "Email",
-                      hintText: "Enter Email",
-                      controller: emailController,
-                      validator: (value) =>
-                          utils.isValidEmail(emailController.text)
-                              ? null
-                              : "Please Enter Correct Email,",
-                    ),
-                    const Align(
-                        alignment: Alignment.topLeft,
-                        child: AppText(text: "Password")),
-                    AppTextFormField(
-                      suffixIcon: IconButton(
-                        icon: Icon(isSecurePassword
-                            ? Icons.visibility_off
-                            : Icons.visibility),
-                        iconSize: 20,
-                        color: const Color(0xff200E32),
-                        onPressed: () {
-                          setState(() {
-                            isSecurePassword = !isSecurePassword;
-                          });
-                        },
-                      ),
-                      labelText: "password",
-                      hintText: "Enter Password",
-                      controller: passwordController,
-                      obscureText: isSecurePassword,
-                      validator: (value) =>
-                          utils.isValidPassword(passwordController.text)
-                              ? null
-                              : "Please valid Password ,",
-                    ),
+                        suffixIcon: IconButton(
+                          icon: Icon(isSecurePassword ? Icons.visibility_off : Icons.visibility),
+                          iconSize: 20,
+                          color: const Color(0xff200E32),
+                          onPressed: () {
+                            setState(() {
+                              isSecurePassword = !isSecurePassword;
+                            });
+                          },
+                        ),
+                        labelText: AppString.password,
+                        hintText: AppString.hintTextPassword,
+                        controller: passwordController,
+                        obscureText: isSecurePassword,
+                        validator: (value) => utils.isValidPassword(passwordController.text) ? null : AppString.errorPasswordTitle),
                     const SizedBox(
                       height: 70,
                     ),
@@ -109,14 +91,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         style: ElevatedButton.styleFrom(
                           fixedSize: const Size(300, 60),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5)),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                         ),
                         child: const Text(
-                          "Login",
+                          AppString.login,
                           style: TextStyle(fontSize: 18),
                         )),
-                    const AppText(text: "OR"),
+                    const AppText(text: AppString.or),
                     ElevatedButton.icon(
                       onPressed: () async {
                         signInWithGoogle();
@@ -125,13 +106,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         "assets/images/google_logo.png",
                         height: 20,
                       ),
-                      label: const Text("Sign in with Google",
-                          style: TextStyle(color: Colors.black)),
-                      style: ButtonStyle(
-                          minimumSize:
-                              MaterialStateProperty.all(const Size(350, 50)),
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.white)),
+                      label: const Text(AppString.signWithGoogle, style: TextStyle(color: Colors.black)),
+                      style: ButtonStyle(minimumSize: MaterialStateProperty.all(const Size(350, 50)), backgroundColor: MaterialStateProperty.all(Colors.white)),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -162,10 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   loginUser() async {
     try {
-      await firebaseAuth
-          .signInWithEmailAndPassword(
-              email: emailController.text, password: passwordController.text)
-          .then((value) {
+      await firebaseAuth.signInWithEmailAndPassword(email: emailController.text, password: passwordController.text).then((value) {
         debugPrint("Value==>${value.user}");
         if (value.user!.emailVerified) {
           debugPrint("User is Login....");
@@ -196,10 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
       debugPrint("User Added---->${jsonEncode(value.data())}");
       userModel = userModelFromJson(jsonEncode(value.data()));
       utils.showToastMessage(message: "Login is successfully");
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => const HomeScreen()),
-          (route) => false);
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const HomeScreen()), (route) => false);
     }).catchError((error) {
       debugPrint("Failed to add user: $error");
     });
@@ -211,8 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
     debugPrint("googleUser----->$googleUser");
 
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
