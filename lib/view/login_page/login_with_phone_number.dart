@@ -2,17 +2,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_demo_one/view/otp_page.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreenOne extends StatefulWidget {
-  const LoginScreenOne({
+class LoginWithPhoneNumber extends StatefulWidget {
+  const LoginWithPhoneNumber({
     Key? key,
   }) : super(key: key);
   static String verify = "";
 
   @override
-  State<LoginScreenOne> createState() => _LoginScreenOneState();
+  State<LoginWithPhoneNumber> createState() => _LoginWithPhoneNumberState();
 }
 
-class _LoginScreenOneState extends State<LoginScreenOne> {
+class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   var phone = "";
   User? user;
@@ -124,7 +124,7 @@ class _LoginScreenOneState extends State<LoginScreenOne> {
         debugPrint("${e.message}");
       },
       codeSent: (String verificationId, int? resendToken) {
-        LoginScreenOne.verify = verificationId;
+        LoginWithPhoneNumber.verify = verificationId;
         Navigator.push(
           context,
           MaterialPageRoute(

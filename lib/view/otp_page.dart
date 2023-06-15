@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_demo_one/view/home/home_screen.dart';
-import 'package:firebase_demo_one/view/home/login_screen_one.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
+
+import 'login_page/login_with_phone_number.dart';
 
 class OtpPage extends StatefulWidget {
   final String? phone;
@@ -111,7 +112,8 @@ class _OtpPageState extends State<OtpPage> {
                         Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const LoginScreenOne(),
+                              builder: (context) =>
+                                  const LoginWithPhoneNumber(),
                             ),
                             (route) => false);
                       },
@@ -131,7 +133,7 @@ class _OtpPageState extends State<OtpPage> {
   verifyOtp() {
     try {
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
-          verificationId: LoginScreenOne.verify, smsCode: code);
+          verificationId: LoginWithPhoneNumber.verify, smsCode: code);
       firebaseAuth.signInWithCredential(credential);
       Navigator.pushAndRemoveUntil(
           context,

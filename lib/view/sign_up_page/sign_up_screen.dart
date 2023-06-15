@@ -3,10 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_demo_one/res/commen/app_text.dart';
 import 'package:firebase_demo_one/res/constant/app_string.dart';
 import 'package:firebase_demo_one/utils/utils.dart';
-import 'package:firebase_demo_one/view/login_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../res/commen/app_text_form_field.dart';
+import '../../res/commen/app_text_form_field.dart';
+import '../login_page/login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({

@@ -8,10 +8,12 @@ import 'package:firebase_demo_one/utils/routes_name.dart';
 import 'package:firebase_demo_one/utils/utils.dart';
 import 'package:firebase_demo_one/view/home/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:github_sign_in/github_sign_in.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../model/user_model.dart';
-import '../res/commen/app_text_form_field.dart';
+import '../../model/user_model.dart';
+import '../../res/commen/app_text_form_field.dart';
+import 'login_with_phone_number.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({
@@ -58,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
               autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 50, horizontal: 10),
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 child: Column(
                   children: [
                     const Align(
@@ -100,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ? null
                                 : AppString.errorPasswordTitle),
                     const SizedBox(
-                      height: 70,
+                      height: 50,
                     ),
                     ElevatedButton(
                         onPressed: () {
@@ -119,21 +121,45 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: TextStyle(fontSize: 18),
                         )),
                     const AppText(text: AppString.or),
-                    ElevatedButton.icon(
-                      onPressed: () async {
-                        signInWithGoogle();
-                      },
-                      icon: Image.asset(
-                        "assets/images/google_logo.png",
-                        height: 20,
-                      ),
-                      label: const Text(AppString.signWithGoogle,
-                          style: TextStyle(color: Colors.black)),
-                      style: ButtonStyle(
-                          minimumSize:
-                              MaterialStateProperty.all(const Size(350, 50)),
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.white)),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const LoginWithPhoneNumber(),
+                              ));
+                        },
+                        child: const Text(AppString.loginWithMobile)),
+                    const AppText(
+                      text: AppString.loginWithSocialMedia,
+                      fontSize: 18,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            signInWithGoogle();
+                          },
+                          icon: Image.asset(
+                            "assets/images/google_logo.png",
+                            height: 30,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () async {
+                            userCredential = await signInWithGitHub();
+                            userData = userCredential!.user;
+                            debugPrint("userdata =$userData");
+                          },
+                          icon: Image.asset("assets/images/github_logo.png",
+                              height: 30),
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 100,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -162,6 +188,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  ///---------------->>>
   loginUser() async {
     try {
       await firebaseAuth
@@ -192,6 +219,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  ///------Get Data FireBaseFireStore--------->>>
   getUser() {
     CollectionReference users = firebaseFireStore.collection('user');
     users.doc(userData!.uid).get().then((value) {
@@ -207,6 +235,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
+  ///------SignInWithGoogle--------->>>
   Future<void> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -227,5 +256,25 @@ class _LoginScreenState extends State<LoginScreen> {
     userData = userCredential!.user;
     debugPrint("userdata-->$userData");
     utils.showToastMessage(message: "Login is Successfully");
+  }
+
+  ///------SignInWithGithub--------->>>
+  Future<UserCredential> signInWithGitHub() async {
+    // Create a GitHubSignIn instance
+    final GitHubSignIn gitHubSignIn = GitHubSignIn(
+      clientId: 'c9f2890ed2deb37c7a78',
+      clientSecret: '1c716ac8795a1aa4812b930d3b2eb6737f29f928',
+      redirectUrl: 'https://fir-demo-app-8423e.firebaseapp.com/__/auth/handler',
+    );
+
+    // Trigger the sign-in flow
+    final result = await gitHubSignIn.signIn(context);
+
+    // Create a credential from the access token
+    final githubAuthCredential =
+        GithubAuthProvider.credential("${result.token}");
+
+    // Once signed in, return the UserCredential
+    return await firebaseAuth.signInWithCredential(githubAuthCredential);
   }
 }
