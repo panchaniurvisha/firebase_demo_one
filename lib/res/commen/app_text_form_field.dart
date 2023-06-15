@@ -5,6 +5,8 @@ class AppTextFormField extends StatelessWidget {
   final Widget? suffixIcon;
   final String? labelText;
   final String? hintText;
+  final TextInputAction? textInputAction;
+  final TextInputType? keyboardType;
   final String? Function(String?)? validator;
   final TextEditingController? controller;
   const AppTextFormField(
@@ -14,7 +16,9 @@ class AppTextFormField extends StatelessWidget {
       this.validator,
       this.obscureText,
       this.suffixIcon,
-      this.hintText})
+      this.hintText,
+      this.keyboardType,
+      this.textInputAction})
       : super(key: key);
 
   @override
@@ -23,7 +27,8 @@ class AppTextFormField extends StatelessWidget {
       obscureText: obscureText ?? false,
       controller: controller,
       autofocus: true,
-      textInputAction: TextInputAction.done,
+      keyboardType: keyboardType,
+      textInputAction: textInputAction ?? TextInputAction.next,
       decoration: InputDecoration(
         suffixIcon: suffixIcon ?? const SizedBox(),
         hintText: hintText!,

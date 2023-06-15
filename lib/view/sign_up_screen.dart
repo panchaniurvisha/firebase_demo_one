@@ -26,7 +26,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
-  TextEditingController numberController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
 
   bool value = false;
   bool isSecurePassword = true;
@@ -52,28 +52,42 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     const AppText(text: AppString.firstName),
                     AppTextFormField(
                       controller: firstNameController,
-                      validator: (value) => utils.isValidName(firstNameController.text) ? null : AppString.errorTitle,
+                      validator: (value) =>
+                          utils.isValidName(firstNameController.text)
+                              ? null
+                              : AppString.errorTitle,
                       labelText: AppString.firstName,
                       hintText: AppString.hintTextName,
+                      keyboardType: TextInputType.name,
                     ),
                     const AppText(text: AppString.lastname),
                     AppTextFormField(
                       controller: lastNameController,
-                      validator: (value) => utils.isValidName(lastNameController.text) ? null : AppString.errorTitle,
+                      validator: (value) =>
+                          utils.isValidName(lastNameController.text)
+                              ? null
+                              : AppString.errorTitle,
                       labelText: AppString.lastname,
                       hintText: AppString.hintTextLastName,
+                      keyboardType: TextInputType.name,
                     ),
                     const AppText(text: AppString.email),
                     AppTextFormField(
                       labelText: AppString.email,
                       hintText: AppString.hintEmailName,
                       controller: emailController,
-                      validator: (value) => utils.isValidEmail(emailController.text) ? null : AppString.errorEmailTitle,
+                      validator: (value) =>
+                          utils.isValidEmail(emailController.text)
+                              ? null
+                              : AppString.errorEmailTitle,
+                      keyboardType: TextInputType.emailAddress,
                     ),
                     const AppText(text: AppString.password),
                     AppTextFormField(
                         suffixIcon: IconButton(
-                          icon: Icon(isSecurePassword ? Icons.visibility_off : Icons.visibility),
+                          icon: Icon(isSecurePassword
+                              ? Icons.visibility_off
+                              : Icons.visibility),
                           iconSize: 20,
                           color: const Color(0xff200E32),
                           onPressed: () {
@@ -86,14 +100,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         hintText: AppString.hintTextPassword,
                         controller: passwordController,
                         obscureText: isSecurePassword,
-                        validator: (value) => utils.isValidPassword(passwordController.text) ? null : AppString.errorPasswordTitle),
+                        textInputAction: TextInputAction.done,
+                        validator: (value) =>
+                            utils.isValidPassword(passwordController.text)
+                                ? null
+                                : AppString.errorPasswordTitle,
+                        keyboardType: TextInputType.visiblePassword),
                     const AppText(text: AppString.mobileNo),
-                    AppTextFormField(controller: numberController, labelText: AppString.number, hintText: AppString.hintTextNumber, validator: (value) => utils.isValidMobile(numberController.text) ? null : AppString.errorNumberTitle),
+                    AppTextFormField(
+                        controller: phoneNumberController,
+                        labelText: AppString.number,
+                        hintText: AppString.hintTextNumber,
+                        validator: (value) =>
+                            utils.isValidMobile(phoneNumberController.text)
+                                ? null
+                                : AppString.errorNumberTitle,
+                        keyboardType: TextInputType.phone),
                     const SizedBox(
                       height: 20,
                     ),
                     Center(
-                      child: TextButton(onPressed: () {}, child: const Text(AppString.forgetPassword)),
+                      child: TextButton(
+                          onPressed: () {},
+                          child: const Text(AppString.forgetPassword)),
                     ),
                     ElevatedButton(
                         onPressed: () {
@@ -104,7 +133,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         },
                         style: ElevatedButton.styleFrom(
                           fixedSize: const Size(400, 60),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
                         ),
                         child: const Text(
                           AppString.signup,
@@ -155,10 +185,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         debugPrint('The password provided is too weak.---->');
-        utils.showSnackBar(context, message: "The password provided is too weak.");
+        utils.showSnackBar(context,
+            message: "The password provided is too weak.");
       } else if (e.code == 'email-already-in-use') {
         debugPrint('The account already exists for that email.');
-        utils.showSnackBar(context, message: "The account already exists for that email.");
+        utils.showSnackBar(context,
+            message: "The account already exists for that email.");
       }
     } catch (e) {
       debugPrint("Error===>$e");
@@ -171,10 +203,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
       'id': user!.uid, // John Doe
       'first_name': firstNameController.text, // Stokes and Sons
       'last_name': lastNameController.text,
-      "number": numberController.text,
+      "number": phoneNumberController.text,
       "email ": user!.email, // 42
     }).then((value) {
-      utils.showToastMessage(message: " SignUp is complete,Please verify your email");
+      utils.showToastMessage(
+          message: " SignUp is complete,Please verify your email");
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
