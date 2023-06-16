@@ -5,7 +5,6 @@ class AppTextFormField extends StatelessWidget {
   final Widget? suffixIcon;
   final String? labelText;
   final String? hintText;
-  // final AutovalidateMode? autovalidateMode;
   final TextInputAction? textInputAction;
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;

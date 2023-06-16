@@ -50,10 +50,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             ),
             ElevatedButton.icon(
               onPressed: () {
-                if (formKey.currentState!.validate()) {
-                  verifyEmail();
+                verifyEmail();
+                /*if (formKey.currentState!.validate()) {
                   debugPrint("Next Login Screen====>");
-                }
+                }*/
               },
               style: ElevatedButton.styleFrom(
                 fixedSize: const Size(400, 60),
