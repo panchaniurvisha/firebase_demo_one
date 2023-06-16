@@ -46,5 +46,5 @@ class AppString {
   ///Forgot password Screen
   static const forgotPasswordTitle = "Reset Password";
   static const text = "Receive an email to\nreset your password";
-  static const resetPassword = "reset Password";
+  static const resetPassword = "Reset Password";
 }

@@ -5,21 +5,22 @@ class AppTextFormField extends StatelessWidget {
   final Widget? suffixIcon;
   final String? labelText;
   final String? hintText;
+  // final AutovalidateMode? autovalidateMode;
   final TextInputAction? textInputAction;
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
   final TextEditingController? controller;
-  const AppTextFormField(
-      {Key? key,
-      this.controller,
-      this.labelText,
-      this.validator,
-      this.obscureText,
-      this.suffixIcon,
-      this.hintText,
-      this.keyboardType,
-      this.textInputAction})
-      : super(key: key);
+  const AppTextFormField({
+    Key? key,
+    this.controller,
+    this.labelText,
+    this.validator,
+    this.obscureText,
+    this.suffixIcon,
+    this.hintText,
+    this.keyboardType,
+    this.textInputAction,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

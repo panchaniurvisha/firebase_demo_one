@@ -13,6 +13,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../model/user_model.dart';
 import '../../res/commen/app_text_form_field.dart';
+import '../forgot_password_page.dart';
 import 'login_with_phone_number.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -103,6 +104,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                 : AppString.errorPasswordTitle),
                     const SizedBox(
                       height: 50,
+                    ),
+                    Center(
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ForgotPasswordPage()));
+                        },
+                        child: const Text(AppString.forgetPassword),
+                      ),
                     ),
                     ElevatedButton(
                         onPressed: () {
