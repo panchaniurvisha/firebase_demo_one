@@ -201,7 +201,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       'first_name': firstNameController.text, // Stokes and Sons
       'last_name': lastNameController.text,
       "number": phoneNumberController.text,
-      "email ": user!.email, // 42
+      "email": user!.email, // 42
     }).then((value) {
       utils.showToastMessage(
           message: " SignUp is complete,Please verify your email");
