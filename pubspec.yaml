@@ -43,6 +43,7 @@ dependencies:
   github_sign_in: ^0.0.5-dev.4
   cloud_firestore: ^4.8.0
   fluttertoast: ^8.2.2
+  firebase_storage: ^11.2.3
 
 dev_dependencies:
   flutter_test:

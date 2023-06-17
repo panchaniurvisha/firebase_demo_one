@@ -20,9 +20,15 @@ class SplashScreenState extends State<SplashScreen> {
       const Duration(seconds: 5), //arguments duration and action
       () {
         if (FirebaseAuth.instance.currentUser != null) {
-          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const HomeScreen()), (route) => false);
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const HomeScreen()),
+              (route) => false);
         } else {
-          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const LoginScreen()), (route) => false);
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const LoginScreen()),
+              (route) => false);
         }
       },
     );
@@ -38,7 +44,10 @@ class SplashScreenState extends State<SplashScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          FlutterLogo(size: height / 3, style: FlutterLogoStyle.horizontal, curve: Curves.easeInCubic),
+          FlutterLogo(
+              size: height / 3,
+              style: FlutterLogoStyle.horizontal,
+              curve: Curves.easeInCubic),
         ],
       ),
     )));
