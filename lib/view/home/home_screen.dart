@@ -26,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
     users.doc(firebaseAuth.currentUser!.uid).get().then((value) {
       debugPrint("User Added---->${jsonEncode(value.data())}");
       userModel = userModelFromJson(jsonEncode(value.data()));
+      setState(() {});
     }).catchError((error) {
       debugPrint("Failed to get user: $error");
     });
@@ -52,42 +53,29 @@ class _HomeScreenState extends State<HomeScreen> {
                     MaterialPageRoute(
                       builder: (context) => const LoginScreen(),
                     ),
-                    (route) => false);
+                        (route) => false);
               },
               icon: const Icon(Icons.logout))
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              "Data Get From Model",
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.orangeAccent,
-                  height: 2),
-            ),
-            Text("first_name: ${userModel!.firstName}",
-                style: const TextStyle(
-                    height: 2, fontWeight: FontWeight.bold, fontSize: 18)),
-            Text("last_name: ${userModel!.lastName}",
-                style: const TextStyle(
-                    height: 2, fontWeight: FontWeight.bold, fontSize: 18)),
-            Text("Email: ${userModel!.email}",
-                style: const TextStyle(
-                    height: 2, fontWeight: FontWeight.bold, fontSize: 18)),
-            Text("Phone number: ${userModel!.number}",
-                style: const TextStyle(
-                    height: 2, fontWeight: FontWeight.bold, fontSize: 18)),
-            Text("Id: ${userModel!.id}",
-                style: const TextStyle(
-                    height: 2, fontWeight: FontWeight.bold, fontSize: 18)),
-          ],
-        ),
-      ),
+          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 15),
+          child: userModel != null
+              ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Data Get From Model",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.orangeAccent, height: 2),
+              ),
+              Text("first_name: ${userModel!.firstName}", style: const TextStyle(height: 2, fontWeight: FontWeight.bold, fontSize: 18)),
+              Text("last_name: ${userModel!.lastName}", style: const TextStyle(height: 2, fontWeight: FontWeight.bold, fontSize: 18)),
+              Text("Email: ${userModel!.email}", style: const TextStyle(height: 2, fontWeight: FontWeight.bold, fontSize: 18)),
+              Text("Phone number: ${userModel!.number}", style: const TextStyle(height: 2, fontWeight: FontWeight.bold, fontSize: 18)),
+              Text("Id: ${userModel!.id}", style: const TextStyle(height: 2, fontWeight: FontWeight.bold, fontSize: 18)),
+            ],
+          )
+              : const CircularProgressIndicator()),
     );
   }
 }
