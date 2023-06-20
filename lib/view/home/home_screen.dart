@@ -25,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   FirebaseFirestore firebaseFireStore = FirebaseFirestore.instance;
   FirebaseStorage firebaseStorage = FirebaseStorage.instance;
+  String dataUrl = 'data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==';
   Utils utils = Utils();
   UserModel? userModel;
 
@@ -41,6 +42,17 @@ class _HomeScreenState extends State<HomeScreen> {
     }).catchError((error) {
       debugPrint("Failed to get user: $error");
     });
+  }
+
+  uploadFromString() async {
+    try {
+      await firebaseStorage
+          .ref()
+          .putString(dataUrl, format: PutStringFormat.dataUrl);
+    } on FirebaseException catch (e) {
+      utils.showSnackBar(context, message: e.message);
+      // ...
+    }
   }
 
   pickImage() async {
@@ -256,6 +268,25 @@ class _HomeScreenState extends State<HomeScreen> {
                                           child: IconButton(
                                             onPressed: () =>
                                                 pickImageFromGallery(),
+                                            icon: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(4.0),
+                                              child: Image.asset(
+                                                "assets/images/gallery_icon.png",
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 20,
+                                        ),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: Colors.white12),
+                                              shape: BoxShape.circle),
+                                          child: IconButton(
+                                            onPressed: () => uploadFromString(),
                                             icon: Padding(
                                               padding:
                                                   const EdgeInsets.all(4.0),
