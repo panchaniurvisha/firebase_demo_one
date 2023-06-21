@@ -8,7 +8,6 @@ import 'package:firebase_demo_one/utils/utils.dart';
 import 'package:firebase_demo_one/view/home/home_screen.dart';
 import 'package:firebase_demo_one/view/sign_up_page/sign_up_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:github_sign_in/github_sign_in.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../model/user_model.dart';
@@ -162,7 +161,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         IconButton(
                           onPressed: () async {
-                            userCredential = await signInWithGitHub();
+                            //userCredential = await signInWithGitHub();
                             userData = userCredential!.user;
                             debugPrint("userdata =$userData");
                           },
@@ -273,7 +272,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   ///------SignInWithGithub And Show Authentication--------->>>
-  Future<UserCredential> signInWithGitHub() async {
+  /* Future<UserCredential> signInWithGitHub() async {
     // Create a GitHubSignIn instance
     final GitHubSignIn gitHubSignIn = GitHubSignIn(
       clientId: 'c9f2890ed2deb37c7a78',
@@ -290,5 +289,5 @@ class _LoginScreenState extends State<LoginScreen> {
 
     // Once signed in, return the UserCredential
     return await firebaseAuth.signInWithCredential(githubAuthCredential);
-  }
+  }*/
 }
