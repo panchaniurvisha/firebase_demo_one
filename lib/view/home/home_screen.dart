@@ -242,7 +242,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         icon: const Icon(Icons.save),
                         label: const Text("Download Image From Url")),
-
                     // Image.network(dataUrl, height: 100, width: 100),
                   ],
                 ),
@@ -303,7 +302,7 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       if (image != null) {
         cameraImage = File(image!.path);
-        storeImage();
+        storeImageInCloudStorage();
       } else {
         debugPrint("No image selected------->");
       }
@@ -315,14 +314,14 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       if (image != null) {
         cameraImage = File(image!.path);
-        storeImage();
+        storeImageInCloudStorage();
       } else {
         debugPrint("No image selected");
       }
     });
   }
 
-  storeImage() async {
+  storeImageInCloudStorage() async {
     try {
       final UploadTask uploadTask = firebaseStorage
           .ref()
@@ -363,16 +362,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
   uploadFromString() async {
     try {
+      String dataUrl = 'data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==';
       await firebaseStorage
           .ref()
-          .child("images")
-          .child("url_image")
+          .child("text")
+          .child("url.png")
           .putString(dataUrl, format: PutStringFormat.dataUrl);
     } on FirebaseException catch (e) {
       utils.showSnackBar(context, message: e.message);
+      // ...
     }
+  }
+}
 
-    /* CircularPercentIndicator(
+/* CircularPercentIndicator(
                       radius: 40.0,
                       lineWidth: 5.0,
                       animation: true,
@@ -391,5 +394,3 @@ class _HomeScreenState extends State<HomeScreen> {
                       circularStrokeCap: CircularStrokeCap.round,
                       progressColor: Colors.deepPurple,
                     ),*/
-  }
-}
