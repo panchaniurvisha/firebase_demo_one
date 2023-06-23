@@ -14,6 +14,7 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import '../../model/user_model.dart';
 import '../../utils/utils.dart';
+import '../firebase_dataStore/data_read_from_cloud_firestore.dart';
 import '../login_page/login_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -234,6 +235,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     AppText(
                       text: "Id: ${userModel!.id}",
                     ),
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    DataReadFromCloudFireStore(),
+                              ));
+                        },
+                        child: Text("Next Screen")),
                     ElevatedButton.icon(
                         onPressed: () {
                           saveImage(context);

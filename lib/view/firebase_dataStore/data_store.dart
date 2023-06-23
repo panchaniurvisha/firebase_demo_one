@@ -14,7 +14,7 @@ class _DataStoreState extends State<DataStore> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("FireBase Cloud DataStore"),
+        title: const Text("FireBase Cloud FireStore"),
       ),
       body: ElevatedButton(
         onPressed: () async {

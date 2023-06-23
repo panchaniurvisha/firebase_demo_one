@@ -30,7 +30,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   User? userData;
   UserCredential? userCredential;
-
   Utils utils = Utils();
   TextEditingController passwordController = TextEditingController();
   TextEditingController emailController = TextEditingController();
