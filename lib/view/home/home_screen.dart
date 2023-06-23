@@ -214,7 +214,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(
                       height: 20,
                     ),
-
+                    ElevatedButton.icon(
+                        onPressed: () {
+                          downloadToLocalFile();
+                          // We will add this method later
+                        },
+                        icon: const Icon(Icons.save),
+                        label: const Text("Save Image From CloudStorage")),
                     const AppText(
                       text: "Data Get From Model",
                       fontSize: 20,
@@ -241,10 +247,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    DataReadFromCloudFireStore(),
+                                    const DataReadFromCloudFireStore(),
                               ));
                         },
-                        child: Text("Next Screen")),
+                        child: const Text("Next Screen")),
                     ElevatedButton.icon(
                         onPressed: () {
                           saveImage(context);
@@ -259,6 +265,47 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
       ),
     );
+  }
+
+  downloadToLocalFile() async {
+    try {
+      final appDocDir = await getApplicationDocumentsDirectory();
+      final filePath = "${appDocDir.path}profile.png";
+      debugPrint("filePath----->${appDocDir.path}profile.png");
+      final file = File(filePath);
+
+      final downloadTask = firebaseStorage
+          .ref()
+          .child("images")
+          .child("profile.png")
+          .writeToFile(file);
+      downloadTask.snapshotEvents.listen((taskSnapshot) {
+        switch (taskSnapshot.state) {
+          case TaskState.running:
+            debugPrint("Upload is running.");
+            // TODO: Handle this case.
+            break;
+          case TaskState.paused:
+            debugPrint("Upload is paused.");
+            // TODO: Handle this case.
+            break;
+          case TaskState.success:
+            debugPrint("Upload was success");
+            // TODO: Handle this case.
+            break;
+          case TaskState.canceled:
+            debugPrint("Upload was canceled");
+            // TODO: Handle this case.
+            break;
+          case TaskState.error:
+            debugPrint("Upload was error");
+            // TODO: Handle this case.
+            break;
+        }
+      });
+    } on FirebaseException catch (e) {
+      utils.showSnackBar(context, message: e.message);
+    }
   }
 
   Future<void> saveImage(BuildContext context) async {
