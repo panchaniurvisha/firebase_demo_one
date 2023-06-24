@@ -38,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
   XFile? image;
   File? cameraImage;
   double? download = 0;
+  String? profileUrl = "";
 
   @override
   void initState() {
@@ -214,13 +215,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(
                       height: 20,
                     ),
-                    ElevatedButton.icon(
+                    OutlinedButton(
+                        onPressed: () {
+                          getDownloadUrl();
+                        },
+                        child: Text("getUrl")),
+                    TextButton(
                         onPressed: () {
                           downloadToLocalFile();
-                          // We will add this method later
                         },
-                        icon: const Icon(Icons.save),
-                        label: const Text("Save Image From CloudStorage")),
+                        child: Text("$profileUrl")),
+                    // AppText(text: profileUrl),
                     const AppText(
                       text: "Data Get From Model",
                       fontSize: 20,
@@ -254,7 +259,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ElevatedButton.icon(
                         onPressed: () {
                           saveImage(context);
-                          uploadFromString();
                           // We will add this method later
                         },
                         icon: const Icon(Icons.save),
@@ -267,18 +271,29 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  getDownloadUrl() async {
+    final imageUrl = await firebaseStorage
+        .ref()
+        .child("images")
+        .child("profile.png")
+        .getDownloadURL();
+    setState(() {
+      profileUrl = imageUrl.toString();
+    });
+    debugPrint("image url=======>$imageUrl");
+  }
+
   downloadToLocalFile() async {
     try {
       final appDocDir = await getApplicationDocumentsDirectory();
-      final filePath = "${appDocDir.path}profile.png";
-      debugPrint("filePath----->${appDocDir.path}profile.png");
+      final filePath = "${appDocDir.path}"
+          "profile.png";
+      debugPrint("filePath----->$filePath");
       final file = File(filePath);
 
-      final downloadTask = firebaseStorage
-          .ref()
-          .child("images")
-          .child("profile.png")
-          .writeToFile(file);
+      final downloadTask =
+          firebaseStorage.refFromURL(profileUrl!).writeToFile(file);
+      debugPrint("Download Task------>$downloadTask");
       downloadTask.snapshotEvents.listen((taskSnapshot) {
         switch (taskSnapshot.state) {
           case TaskState.running:
@@ -415,20 +430,6 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     } on FirebaseException catch (e) {
       utils.showSnackBar(context, message: e.message);
-    }
-  }
-
-  uploadFromString() async {
-    try {
-      String dataUrl = 'data:text/plain;base64,SGVsbG8sIFdvcmxkIQ==';
-      await firebaseStorage
-          .ref()
-          .child("text")
-          .child("url.png")
-          .putString(dataUrl, format: PutStringFormat.dataUrl);
-    } on FirebaseException catch (e) {
-      utils.showSnackBar(context, message: e.message);
-      // ...
     }
   }
 }
