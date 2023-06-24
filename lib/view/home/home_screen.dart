@@ -284,16 +284,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   downloadToLocalFile() async {
+    String? message;
     try {
-      final appDocDir = await getApplicationDocumentsDirectory();
-      final filePath = "${appDocDir.path}"
-          "profile.png";
+      final appDocDir = await getTemporaryDirectory();
+      final filePath = "${appDocDir.path}profile.png";
       debugPrint("filePath----->$filePath");
       final file = File(filePath);
-
       final downloadTask =
           firebaseStorage.refFromURL(profileUrl!).writeToFile(file);
-      debugPrint("Download Task------>$downloadTask");
       downloadTask.snapshotEvents.listen((taskSnapshot) {
         switch (taskSnapshot.state) {
           case TaskState.running:
@@ -305,7 +303,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // TODO: Handle this case.
             break;
           case TaskState.success:
-            debugPrint("Upload was success");
+            debugPrint("Upload was success------>");
             // TODO: Handle this case.
             break;
           case TaskState.canceled:
@@ -318,8 +316,18 @@ class _HomeScreenState extends State<HomeScreen> {
             break;
         }
       });
-    } on FirebaseException catch (e) {
-      utils.showSnackBar(context, message: e.message);
+      final params = SaveFileDialogParams(sourceFilePath: file.path);
+      final finalPath = await FlutterFileDialog.saveFile(params: params);
+
+      if (finalPath != null) {
+        message = 'Image saved to disk';
+      }
+    } catch (e) {
+      message = 'An error occurred while saving the image';
+    }
+
+    if (message != null) {
+      utils.showSnackBar(context, message: message);
     }
   }
 
