@@ -114,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   isDismissible: true,
                                   context: context,
                                   backgroundColor: Colors.transparent,
-                                  // barrierColor: Colors.transparent,
+                                  barrierColor: Colors.transparent,
                                   builder: (context) => Container(
                                     height: 150,
                                     width: double.infinity,

@@ -39,3 +39,5 @@ class UserModel {
         "first_name": firstName,
       };
 }
+
+
