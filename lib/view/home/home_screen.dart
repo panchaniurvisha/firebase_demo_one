@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -68,205 +67,215 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 15),
-        child: userModel == null
-            ? const Center(child: CircularProgressIndicator())
-            : SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Stack(
-                          alignment: Alignment.bottomRight,
-                          children: [
-                            ClipRRect(
-                                borderRadius: BorderRadius.circular(50),
-                                child: cameraImage != null
-                                    ? Image.file(
-                                        cameraImage!,
-                                        height: 100,
-                                        width: 100,
-                                        fit: BoxFit.cover,
-                                      )
-                                    : Container(
-                                        decoration: BoxDecoration(
-                                            color: Colors.grey[200],
-                                            borderRadius:
-                                                BorderRadius.circular(50)),
-                                        width: 100,
-                                        height: 100,
-                                        child: Icon(
-                                          Icons.camera_alt,
-                                          color: Colors.grey[800],
-                                        ),
-                                      )),
-                            Container(
-                              decoration: const BoxDecoration(
-                                color: Colors.teal,
-                                shape: BoxShape.circle,
-                              ),
-                              child: IconButton(
-                                icon: const Icon(
-                                  Icons.camera_alt,
-                                ),
-                                onPressed: () => showModalBottomSheet(
-                                  isDismissible: true,
-                                  context: context,
-                                  backgroundColor: Colors.transparent,
-                                  barrierColor: Colors.transparent,
-                                  builder: (context) => Container(
-                                    height: 150,
-                                    width: double.infinity,
-                                    clipBehavior: Clip.antiAlias,
-                                    decoration: const BoxDecoration(
-                                        color: Colors.black26,
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(15),
-                                          topRight: Radius.circular(15),
-                                        )),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 20, horizontal: 10),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const Text(
-                                            "Profile photo",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 22,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        color: Colors.white12),
-                                                    shape: BoxShape.circle),
-                                                child: IconButton(
-                                                  onPressed: () {
-                                                    pickImageFromCamera();
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  icon: const Icon(
-                                                    Icons.camera_alt_rounded,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                width: 20,
-                                              ),
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        color: Colors.white12),
-                                                    shape: BoxShape.circle),
-                                                child: IconButton(
-                                                  onPressed: () {
-                                                    pickImageFromGallery();
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  icon: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            4.0),
-                                                    child: Image.asset(
-                                                      "assets/images/gallery_icon.png",
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Stack(
+                    alignment: Alignment.bottomRight,
+                    children: [
+                      ClipRRect(
+                          borderRadius: BorderRadius.circular(50),
+                          child: cameraImage != null
+                              ? Image.file(
+                                  cameraImage!,
+                                  height: 100,
+                                  width: 100,
+                                  fit: BoxFit.cover,
+                                )
+                              : Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey[200],
+                                      borderRadius: BorderRadius.circular(50)),
+                                  width: 100,
+                                  height: 100,
+                                  child: Icon(
+                                    Icons.camera_alt,
+                                    color: Colors.grey[800],
                                   ),
+                                )),
+                      Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.teal,
+                          shape: BoxShape.circle,
+                        ),
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.camera_alt,
+                          ),
+                          onPressed: () => showModalBottomSheet(
+                            isDismissible: true,
+                            context: context,
+                            backgroundColor: Colors.transparent,
+                            barrierColor: Colors.transparent,
+                            builder: (context) => Container(
+                              height: 150,
+                              width: double.infinity,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: const BoxDecoration(
+                                  color: Colors.black26,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(15),
+                                    topRight: Radius.circular(15),
+                                  )),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 20, horizontal: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Profile photo",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Container(
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: Colors.white12),
+                                              shape: BoxShape.circle),
+                                          child: IconButton(
+                                            onPressed: () {
+                                              pickImageFromCamera();
+                                              Navigator.of(context).pop();
+                                            },
+                                            icon: const Icon(
+                                              Icons.camera_alt_rounded,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 20,
+                                        ),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: Colors.white12),
+                                              shape: BoxShape.circle),
+                                          child: IconButton(
+                                            onPressed: () {
+                                              pickImageFromGallery();
+                                              Navigator.of(context).pop();
+                                            },
+                                            icon: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(4.0),
+                                              child: Image.asset(
+                                                "assets/images/gallery_icon.png",
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
-                          ],
-                        ),
-                        LinearPercentIndicator(
-                          alignment: MainAxisAlignment.end,
-                          animationDuration: 1000,
-                          animation: true,
-                          width: 200.0,
-                          lineHeight: 20.0,
-                          percent: download! / 100,
-                          center: Text(
-                            "$download",
-                            style: const TextStyle(fontSize: 12.0),
                           ),
-                          trailing: const Icon(Icons.mood),
-                          barRadius: const Radius.circular(10),
-                          backgroundColor: Colors.deepPurple.shade200,
-                          progressColor: Colors.deepPurple,
                         ),
-                      ],
+                      ),
+                    ],
+                  ),
+                  LinearPercentIndicator(
+                    alignment: MainAxisAlignment.end,
+                    animationDuration: 1000,
+                    animation: true,
+                    width: 200.0,
+                    lineHeight: 20.0,
+                    percent: download! / 100,
+                    center: Text(
+                      "$download",
+                      style: const TextStyle(fontSize: 12.0),
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    OutlinedButton(
-                        onPressed: () {
-                          getDownloadUrl();
-                        },
-                        child: Text("getUrl")),
-                    TextButton(
-                        onPressed: () {
-                          downloadToLocalFile();
-                        },
-                        child: Text("$profileUrl")),
-                    // AppText(text: profileUrl),
-                    const AppText(
-                      text: "Data Get From Model",
-                      fontSize: 20,
-                      color: Colors.indigoAccent,
-                    ),
-                    AppText(
-                      text: "first_name: ${userModel!.firstName}",
-                    ),
-                    AppText(
-                      text: "last_name: ${userModel!.lastName}",
-                    ),
-                    AppText(
-                      text: "Email: ${userModel!.email}",
-                    ),
-                    AppText(
-                      text: "Phone number: ${userModel!.number}",
-                    ),
-                    AppText(
-                      text: "Id: ${userModel!.id}",
-                    ),
-                    ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const DataReadFromCloudFireStore(),
-                              ));
-                        },
-                        child: const Text("Next Screen")),
-                    ElevatedButton.icon(
-                        onPressed: () {
-                          saveImage(context);
-                          // We will add this method later
-                        },
-                        icon: const Icon(Icons.save),
-                        label: const Text("Download Image From Url")),
-                    // Image.network(dataUrl, height: 100, width: 100),
-                  ],
-                ),
+                    trailing: const Icon(Icons.mood),
+                    barRadius: const Radius.circular(10),
+                    backgroundColor: Colors.deepPurple.shade200,
+                    progressColor: Colors.deepPurple,
+                  ),
+                ],
               ),
+              const SizedBox(
+                height: 20,
+              ),
+              OutlinedButton(
+                  onPressed: () {
+                    getDownloadUrl();
+                  },
+                  child: Text("getUrl")),
+              TextButton(
+                  onPressed: () {
+                    downloadToLocalFile();
+                  },
+                  child: Text("$profileUrl")),
+              // AppText(text: profileUrl),
+              const AppText(
+                text: "Data Get From Model",
+                fontSize: 20,
+                color: Colors.indigoAccent,
+              ),
+              FutureBuilder<Map<String, dynamic>>(
+                future: getUser(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  }
+                  if (snapshot.hasError) {
+                    return Text('Failed to fetch user data');
+                  }
+                  Map<String, dynamic>? userData = snapshot.data;
+                  // Access the user data here and display it in your widget
+                  // For example:
+                  String firstName = userData?['first_name'] ?? '';
+                  String lastName = userData?['last_name'] ?? '';
+                  String email = userData?['email'] ?? '';
+                  String phoneNumber = userData?['number'] ?? '';
+                  String id = userData?['id'] ?? '';
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AppText(text: 'First Name: $firstName'),
+                      AppText(text: 'Last Name: $lastName'),
+                      AppText(text: 'Email: $email'),
+                      AppText(text: 'Phone number: $phoneNumber'),
+                      AppText(text: 'Id: $id'),
+                    ],
+                  );
+                },
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              const DataReadFromCloudFireStore(),
+                        ));
+                  },
+                  child: const Text("Next Screen")),
+              ElevatedButton.icon(
+                  onPressed: () {
+                    saveImage(context);
+                    // We will add this method later
+                  },
+                  icon: const Icon(Icons.save),
+                  label: const Text("Download Image From Url")),
+              // Image.network(dataUrl, height: 100, width: 100),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -366,7 +375,17 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  getUser() {
+  Future<Map<String, dynamic>> getUser() async {
+    CollectionReference users = firebaseFireStore.collection('user');
+    DocumentSnapshot documentSnapshot =
+        await users.doc(firebaseAuth.currentUser!.uid).get();
+    Map<String, dynamic> userData =
+        documentSnapshot.data() as Map<String, dynamic>;
+    UserModel userModel = UserModel.fromJson(userData);
+    return userData;
+  }
+
+  /*   getUser() {
     CollectionReference users = firebaseFireStore.collection('user');
     users.doc(firebaseAuth.currentUser!.uid).get().then((value) {
       debugPrint("User Added---->${jsonEncode(value.data())}");
@@ -376,6 +395,7 @@ class _HomeScreenState extends State<HomeScreen> {
       debugPrint("Failed to get user: $error");
     });
   }
+  }*/
 
   pickImageFromCamera() async {
     image = await picker.pickImage(source: ImageSource.camera);

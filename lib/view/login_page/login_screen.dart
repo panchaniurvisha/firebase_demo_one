@@ -207,7 +207,7 @@ class _LoginScreenState extends State<LoginScreen> {
           .signInWithEmailAndPassword(
               email: emailController.text, password: passwordController.text)
           .then((value) {
-        debugPrint("Value==>${value.user}");
+        debugPrint("Value=========>${value.user}");
         if (value.user!.emailVerified) {
           debugPrint("User is Login....");
           userData = value.user;
